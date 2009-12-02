@@ -1,0 +1,32 @@
+<?php
+// $Id: timesince.module,v 1  2009/12/2  10:53:29 CET 2009,  fran Exp $
+
+/*
+ * hook_nodeapi
+ */
+
+function timesince_nodeapi( &$node, $op, $a3 = NULL, $a4 = NULL){
+  if ($op == "load"){
+   $fuzzytime = format_interval(time() - $node->created, $granularity=1); 
+   $node->fuzzytime = theme('timesince_fuzzytime', $fuzzytime); 
+   }
+}
+
+
+/**
+* hook_theme
+**/
+function timesince_theme(){
+  return array(
+              'timesince_fuzzytime' => array('arguments' => array('text' => '')),
+              );  
+  
+}
+
+/**
+* Theme the newsletter email subject.
+*/
+function theme_timesince_fuzzytime($text) {
+  $output = '<span>'. t('since'). '&nbsp;' .  $text .'</span>';
+  return $output;
+}
